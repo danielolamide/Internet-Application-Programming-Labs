@@ -10,7 +10,9 @@
 		private $city_name; 
 		private $username; 
 		private $password; 
-		private $profile_image; 
+		private $profile_image;
+		private $utc_timestamp; 
+		private $offset; 
 
 		private $errors; 
 
@@ -51,7 +53,7 @@
 			$this->hashPassword(); 
 			$pass=$this->password; 
 			$profile_image = $this->profile_image;
-			$res=mysqli_query($con, "INSERT INTO user(first_name, last_name, user_city, username, password, profile_image) VALUES ('$fn', '$ln', '$city', '$uname', '$pass', '$profile_image')")or die("Error: ".mysqli_error($con)); 
+			$res=mysqli_query($con, "INSERT INTO user(first_name, last_name, user_city, username, password, profile_image, user_utc_timestamp, offset) VALUES ('$fn', '$ln', '$city', '$uname', '$pass', '$profile_image', '$this->utc_timestamp', '$this->offset')")or die("Error: ".mysqli_error($con)); 
 			return $res; 
 		}
 		public static function readAll($con) {
@@ -190,5 +192,39 @@
 				$this->profile_image=$profile_image; 
 
 				return $this; 
+		}
+
+		/**
+		 * Get the value of utc_timestamp
+		 */ 
+		public function getUtc_timestamp(){
+				return $this->utc_timestamp;
+		}
+
+		/**
+		 * Set the value of utc_timestamp
+		 *
+		 * @return  self
+		 */ 
+		public function setUtc_timestamp($utc_timestamp){
+				$this->utc_timestamp = $utc_timestamp;
+				return $this;
+		}
+
+		/**
+		 * Get the value of offset
+		 */ 
+		public function getOffset()	{
+				return $this->offset;
+		}
+
+		/**
+		 * Set the value of offset
+		 *
+		 * @return  self
+		 */ 
+		public function setOffset($offset){
+				$this->offset = $offset;
+				return $this;
 		}
 	}
