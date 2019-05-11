@@ -7,4 +7,6 @@
         public function update($con);
         public function removeOne($con);
         public function removeAll($con);
+        public function validateForm();
+        public function createFormErrorSessions();
     }
