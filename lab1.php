@@ -7,7 +7,9 @@
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $city = $_POST['city_name'];
-        $user = new User($first_name,$last_name,$city);
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $user = new User($first_name,$last_name,$city,$username,$password);
         if(!$user->validateForm()){
             $user->createFormErrorSessions();
             header("Refresh : 0");
@@ -69,10 +71,21 @@
                             <input placeholder="City" id="city_name" type="text" class="validate" name = 'city_name'>
                             <label for="city_name">City</label>
                         </div>
+                        <div class="input-field col s12">
+                            <input placeholder="Username" id="username" type="text" class="validate" name = 'username'>
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input placeholder="Password" id="password" type="password" class="validate" name = 'password'>
+                            <label for="password">Password</label>
+                        </div>
                         <div class="center input-field col s12">
                             <button class="btn waves-effect waves-light" type="submit" name="submit-btn">Submit
                                 <i class="material-icons right">send</i>
                             </button>
+                        </div>
+                        <div class="col s12">
+                            <span>Already have an account? <a style="color : dodgerblue" href='Login.php'>Login</a></span>
                         </div>
                     </div>
                 </div>
