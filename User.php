@@ -9,14 +9,19 @@
 		private $last_name; 
 		private $city_name; 
 		private $username; 
-		private $password; 
+		private $password;
+		private $active_api_key;
 		private $profile_image;
 		private $utc_timestamp; 
-		private $offset; 
+		private $offset;
+		private $db;
 
 		private $errors; 
 
 		function __construct() {
+			$DbConn=new DBConnector();
+			$this->db = $DbConn->conn;
+
 			$argv=func_get_args(); 
 			switch (func_num_args()) {
 				case 5:
@@ -45,7 +50,7 @@
 			return $this->user_id; 
 		}
 
-		public function save($con) {
+		public function save() {
 			$fn=$this->first_name; 
 			$ln=$this->last_name; 
 			$city=$this->city_name; 
@@ -53,26 +58,54 @@
 			$this->hashPassword(); 
 			$pass=$this->password; 
 			$profile_image = $this->profile_image;
-			$res=mysqli_query($con, "INSERT INTO user(first_name, last_name, user_city, username, password, profile_image, user_utc_timestamp, offset) VALUES ('$fn', '$ln', '$city', '$uname', '$pass', '$profile_image', '$this->utc_timestamp', '$this->offset')")or die("Error: ".mysqli_error($con)); 
+			
+			$sql = 'INSERT INTO user(first_name, last_name, user_city, username, password, profile_image, user_utc_timestamp, offset) VALUES(?,?,?,?,?,?,?,?)';
+			$values=[$fn, $ln, $city, $uname, $pass, $profile_image, $this->utc_timestamp, $this->offset];
+			$stmt=$this->db->prepare($sql);
+			$stmt->bind_param('ssssssii', ...$values);
+			$res=$stmt->execute();
+			$stmt->close();
 			return $res; 
 		}
-		public static function readAll($con) {
-			$result=mysqli_query($con, "SELECT * FROM user;"); 
+		
+		public function readAll() {
+			$result=$this->db->query("SELECT * FROM user;"); 
 			return mysqli_fetch_all($result, MYSQLI_ASSOC); 
 		}
-		public function readUnique($con) {
+		public function readUnique() {
 			return null; 
 		}
-		public function search($con) {
+		public function search($user_id=false, $username = false) {
+			$where_clause='';
+			$types='';
+			$values=[];
+			if ($user_id && $username) {
+				$where_clause.='WHERE id=? AND username=?';
+				$types.='is';
+				$values=[$user_id, $username]; 
+			} else if($user_id !== FALSE) {
+				$where_clause.='WHERE id=?';
+				$types.='i';
+				$values=[$user_id];
+			} else if($username !== FALSE) {
+				$where_clause.='WHERE username=?';
+				$types.='s';
+				$values=[$username];
+			}
+			$sql='SELECT * FROM user '.$where_clause;
+			$stmt = $this->db->prepare($sql);
+			$stmt->bind_param($types, ...$values);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			return $row === NULL ? false : $row; 
+		}
+		public function update() {
 			return null; 
 		}
-		public function update($con) {
+		public function removeOne() {
 			return null; 
 		}
-		public function removeOne($con) {
-			return null; 
-		}
-		public function removeAll($con) {
+		public function removeAll() {
 			return null; 
 		}
 
@@ -92,10 +125,9 @@
 		}
 
 		public function isUserExist() {
-			$DbConn=new DBConnector(); 
-			$username=mysqli_real_escape_string($DbConn->conn, $this->username); 
-			$res=mysqli_query($DbConn->conn, "SELECT * FROM user WHERE username = '$username';"); 
-			return mysqli_num_rows($res)===1; 
+			$username=$this->db->real_escape_string($this->username);
+			$user = $this->search(false, $username);
+			return $user !== FALSE;
 		}
 
 		public function createFormErrorSessions() {
@@ -140,16 +172,14 @@
 		}
 
 		public function isPasswordCorrect() {
-			$DbConn=new DBConnector(); 
 			$found=false; 
-			$res=mysqli_query($DbConn->conn, "SELECT * FROM user;"); 
+			$res=$this->db->query("SELECT * FROM user;"); 
 			while ($row=mysqli_fetch_array($res)) {
 				if (password_verify($this->getPassword(), $row['password']) && $this->getUsername()==$row['username']) {
 					$found=true; 
 					break; 
 				}
 			}
-			$DbConn->closeDatabase(); 
 			return $found; 
 		}
 
@@ -167,13 +197,13 @@
 		}
 
 		public function createUserSession() {
-			$_SESSION['username']=$this->getUsername(); 
+			$_SESSION['logged_in'] = TRUE;
+			$_SESSION['user']=$this->search(false, $this->username);
 		}
 		
 		public function logout() {
-			unset($_SESSION['username']); 
 			session_destroy(); 
-			header("Location:lab1.php"); 
+			header("Location:login.php"); 
 		}
 
 		/**
