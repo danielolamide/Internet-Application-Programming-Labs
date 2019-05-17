@@ -25,7 +25,7 @@ if (!isset($_SESSION['logged_in'])) {
 
     <div id="api-key-info" class="mt-4">
       <strong>Your API KEY: </strong>(Note: <span class="text-danger">If you generate a new API key, existing keys in your applications will be invalidated</span> )
-      <div style="background: #ccc; height: 40px; width: 100%;" class="p-2" id="current-api-key" data-user-id="<?= $_SESSION['user']['id']; ?>"></div>
+      <div style="background: #ccc; height: 40px; width: 100%;" class="p-2 d-none" id="current-api-key" data-user-id="<?= $_SESSION['user']['id']; ?>"></div>
     </div>
   </div>
 </div>

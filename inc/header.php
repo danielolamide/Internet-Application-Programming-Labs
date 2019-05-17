@@ -8,5 +8,13 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?= BASE_URL?>/assets/bootstrap/bootstrap.min.css">
+
+    <style>
+      .alert.notification {
+        padding: 20px;
+        max-width: 40%;
+        min-width: 20%;
+      }
+    </style>
   </head>
   <body>

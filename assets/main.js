@@ -65,7 +65,13 @@ function fetchActiveKey() {
     dataType: 'json'
   }).done(response => {
     if (response.status) {
-      apiKeyHolder.html(response.body.api_key);
+      const apiKey = response.body.api_key;
+
+      if (apiKey !== null) {
+        apiKeyHolder.removeClass('d-none');
+        apiKeyHolder.html(response.body.api_key);
+      } else if (!apiKeyHolder.hasClass('d-none'))
+        apiKeyHolder.addClass('d-none').html('');
     }
   });
 }
@@ -76,6 +82,8 @@ $(document).ready(() => {
 
   // ? Generate api key
   $('#btn-api-key').on('click', event => {
+    const apiKeyHolder = $('#current-api-key');
+
     // eslint-disable-next-line no-alert
     const proceed = confirm('You are about to generate a new API KEY');
     if (!proceed) return;
@@ -108,7 +116,9 @@ $(document).ready(() => {
           dataType: 'json'
         }).done(response => {
           if (response.status) {
-            $('#current-api-key').html(apiKey);
+            if (apiKeyHolder.hasClass('d-none'))
+              apiKeyHolder.removeClass('d-none');
+            apiKeyHolder.html(apiKey);
           }
           const type = response.status ? 'success' : 'danger';
           notify('', type, response.body.transaction_msg);

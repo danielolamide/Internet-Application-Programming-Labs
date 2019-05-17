@@ -1,6 +1,5 @@
 <?php 
 	session_start();
-	ini_set('display_errors',1);
 	include_once 'DBConnector.php';
 	include_once 'User.php';
 
@@ -24,6 +23,8 @@
     <!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		
+  </head>
+  <body>
 		<style>
 			#main {
 				width: 60%;
@@ -34,8 +35,6 @@
 				}
 			}
 		</style>
-  </head>
-  <body>
 	<div class="container-fluid" style="height: 100vh; padding:0;">
 			<div class="d-flex justify-content-center align-items-center" style="height: 100%;">
 				<div class="container" id="main">
