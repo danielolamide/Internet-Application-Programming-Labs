@@ -11,6 +11,7 @@
 
         private $username;
         private $password;
+        private $profile_image;
 
         function __construct() {
 			$argv=func_get_args(); 
@@ -30,6 +31,7 @@
             $this->city_name = $city_name;
             $this->username = $username;
             $this->password = $password;
+            
         }
         public static function create(){
             $instance = new self();
@@ -97,6 +99,14 @@
             session_destroy();
             header('Location:lab1.php');
         }
+        public function getProfile_image() {
+            return $this->profile_image; 
+        }
+
+        public function setProfile_image($profile_image) {
+                $this->profile_image=$profile_image; 
+                return $this; 
+        }
         public function save($con){
             $fn=$this->first_name; 
 			$ln=$this->last_name; 
@@ -104,9 +114,9 @@
             $username=  $this->username;
             $this->hashPassword();
             $password= $this->password; 
-            
-            $res = mysqli_query($con,"INSERT INTO user(first_name,last_name,user_city,username,password) 
-                VALUES('$fn','$ln','$city','$username','$password')")
+            $profile_image = $this->profile_image;
+            $res = mysqli_query($con,"INSERT INTO user(first_name,last_name,user_city,username,password,profile_image) 
+                VALUES('$fn','$ln','$city','$username','$password','$profile_image')")
                 or die("Error" . mysqli_error($con));
             return $res;
         }

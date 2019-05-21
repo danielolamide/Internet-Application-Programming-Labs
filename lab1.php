@@ -1,7 +1,9 @@
 <?php
     session_start();
+    ini_set('display-errors',1);
     include_once('DBConnector.php');
     include_once('User.php');
+    include_once('FileUploader.php');
     $DBConnection = new DBConnector;
     if(isset($_POST['submit-btn'])){
         $first_name = $_POST['first_name'];
@@ -10,21 +12,29 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $user = new User($first_name,$last_name,$city,$username,$password);
+        //File Upload
+        $original_name = $_FILES['profile_image']['name'];
+		$file_name_split = explode('.',$_FILES['profile_image']['name']);
+		$file_type = strtolower(end($file_name_split));
+		$file_size = $_FILES['profile_image']['size'];
+		$file_tmp_name = $_FILES['profile_image']['tmp_name'];
+		$file_uploader = new FileUploader($original_name,$file_type, $file_size, $file_tmp_name);
+        $file_uploader->setAccepted_extensions(['jpeg','jpg','png']);
         if(!$user->validateForm()){
             $user->createFormErrorSessions();
             header("Refresh : 0");
             die();
         }
         else{
+            if(!($file_uploader->uploadFile())){
+                echo "Failed";
+            }
+            $user->setProfile_image($file_uploader->getFinalFileName());
             $res = $user->save($DBConnection->conn);
 
         }
-        if($res){
-            echo "Good";
-        }
-        else{
-            echo "Bad";
-        }
+
+         echo ($res) ? "Success" : "Failed Database Update";
 
 
     }
@@ -55,7 +65,7 @@
             ?>
         </div>
         <h3>Registration Form</h3>
-        <form method = 'post'>
+        <form method = 'post' enctype='multipart/form-data'>
             <div class="row">
                 <div class="col s12">
                     <div class="row">
@@ -78,6 +88,15 @@
                         <div class="input-field col s12">
                             <input placeholder="Password" id="password" type="password" class="validate" name = 'password'>
                             <label for="password">Password</label>
+                        </div>
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Upload Image</span>
+                                <input type="file" name ='profile_image'>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
                         </div>
                         <div class="center input-field col s12">
                             <button class="btn waves-effect waves-light" type="submit" name="submit-btn">Submit
