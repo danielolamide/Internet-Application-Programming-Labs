@@ -1,6 +1,7 @@
 <?php
+    session_start();
     include_once("User.php");
-    $instance = User::create();
+    $instance = new User();
     $instance->logout();
 ?>
 <!DOCTYPE html>

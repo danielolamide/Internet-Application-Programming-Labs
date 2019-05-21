@@ -11,7 +11,11 @@
         $city = $_POST['city_name'];
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $utcTimestamp = $_POST['utc_timestamp'];
+        $offset = $_POST['time_zone_offset'];
         $user = new User($first_name,$last_name,$city,$username,$password);
+        $user->setUtc_timestamp($utcTimestamp);
+		$user->setOffset($offset);
         //File Upload
         $original_name = $_FILES['profile_image']['name'];
 		$file_name_split = explode('.',$_FILES['profile_image']['name']);
@@ -52,6 +56,8 @@
     <!-- Compiled and minified JavaScript -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type = 'text/javascript' src = 'timezone.js'></script>
     <title>Internet Application Programming</title>
 </head>
 <body>
@@ -88,6 +94,14 @@
                         <div class="input-field col s12">
                             <input placeholder="Password" id="password" type="password" class="validate" name = 'password'>
                             <label for="password">Password</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input placeholder="UTC" id="utc_timestamp" type="text" name = 'utc_timestamp'>
+                            <label for="utc_timestamp">UTC Timestamp</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input placeholder="Timezone Offset" id="time_zone_offset" type="text"  name = 'time_zone_offset'>
+                            <label for="time_zone_offset">Timezone Offset</label>
                         </div>
                         <div class="file-field input-field col s12">
                             <div class="btn">

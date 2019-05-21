@@ -7,11 +7,11 @@
         private $first_name;
         private $last_name;
         private $city_name;
-
-
         private $username;
         private $password;
         private $profile_image;
+        private $offset;
+        private $utcTimestamp;
 
         function __construct() {
 			$argv=func_get_args(); 
@@ -84,7 +84,8 @@
         public function login(){
             if($this->isPasswordCorrect()){
                 self::createUserSession();
-                header("Location : Private_Page.php");
+                header("Location:private_page.php"); 
+                // echo "Success";
             }
             else{
                 //To add proper error handling
@@ -97,7 +98,7 @@
         public function logout(){
             unset($_SESSION['username']);
             session_destroy();
-            header('Location:lab1.php');
+            // header('Location:lab1.php');
         }
         public function getProfile_image() {
             return $this->profile_image; 
@@ -115,8 +116,10 @@
             $this->hashPassword();
             $password= $this->password; 
             $profile_image = $this->profile_image;
-            $res = mysqli_query($con,"INSERT INTO user(first_name,last_name,user_city,username,password,profile_image) 
-                VALUES('$fn','$ln','$city','$username','$password','$profile_image')")
+            $utcTimestamp = $this->utcTimestamp;
+            $offset = $this->offset;
+            $res = mysqli_query($con,"INSERT INTO user(first_name,last_name,user_city,username,password,profile_image,utcTimestamp,time_zone_offset) 
+                VALUES('$fn','$ln','$city','$username','$password','$profile_image','$utcTimestamp','$offset')")
                 or die("Error" . mysqli_error($con));
             return $res;
         }
@@ -152,5 +155,35 @@
         }
         public function createLoginErrorSession(){
             $_SESSION['login-error'] = "Invalid Credentials";
+        }
+
+        /**
+         * Get the value of utc_timestamp
+         */ 
+        public function getUtc_timestamp()
+        {
+                return $this->utc_timestamp;
+        }
+
+
+        public function setUtc_timestamp($utc_timestamp)
+        {
+                $this->utc_timestamp = $utc_timestamp;
+
+                return $this;
+        }
+
+
+        public function getOffset()
+        {
+                return $this->offset;
+        }
+
+
+        public function setOffset($offset)
+        {
+                $this->offset = $offset;
+
+                return $this;
         }
     }
