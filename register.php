@@ -68,8 +68,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Registration</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   	<!-- Compiled and minified CSS -->
+	   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 		<script src="./validate.js"></script>
   </head>
@@ -89,45 +93,59 @@
 						<?php endif; ?>
 					</div>
 					<h2 class="text-center">Registration</h2>
-					<div class="d-flex justify-content-center pt-md-4 pt-sm-2">
-						<form method="post"  action="<?= $_SERVER['PHP_SELF']?>" enctype="multipart/form-data">
+					<div class="row">
+						<form class='col s12' method="post" style="width: 100%;" action="<?= $_SERVER['PHP_SELF']?>" enctype="multipart/form-data">
 							<div class="row">
-								<div class="form-group col-md-6 col-sm-12">
+								<div class="input-field col s12">
 									<label for="first_name">First name</label>
-									<input type="text" class="form-control" name="first_name" id="first_name" required>
+									<input type="text" class="validate" name="first_name" id="first_name" required>
 								</div>
-								<div class="form-group col-md-6 col-sm-12">
-									<label for="last_name">Last name</label>
-									<input type="text" class="form-control" name="last_name" id="last_name">
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+								<label for="last_name">Last name</label>
+									<input type="text" class="validate" name="last_name" id="last_name">
 								</div>
-								<div class="form-group col-md-6 col-sm-12">
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
 									<label for="city_name">City name</label>
-									<input type="text" class="form-control" name="city_name" id="city_name">
+									<input type="text" class="validate" name="city_name" id="city_name">
 								</div>
-								<div class="form-group col-md-6 col-sm-12">
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
 									<label for="username">Username</label>
-									<input type="text" class="form-control" name="username" id="username" required>
+									<input type="text" class="validate" name="username" id="username" required>
 								</div>
-								<div class="form-group col-md-6 col-sm-12">
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<input type="password" class="validate" name="password" id="password" required>
 									<label for="password">Password</label>
-									<input type="password" class="form-control" name="password" id="password" required>
 								</div>
-								<div class="form-group col-md-6 col-sm-12">
-									<label for="customFile">Profile image</label>
-									<div class="custom-file">
-										<input type="file" class="custom-file-input" id="customFile" name="profile_image" required>
-										<label class="custom-file-label" for="customFile">Upload profile image</label>
-									</div>
+							</div>
+							<div class="file-field input-field">
+								<div class="btn">
+									<span>Profile Image</span>
+									<input type="file">
 								</div>
-								<input type="hidden" name="utc_timestamp" id="utc_timestamp">
-								<input type="hidden" name="time_zone_offset" id="time_zone_offset">
-								<div class="col-sm-12">
-									<button type="submit" name="btn_save" class="btn btn-success">Submit</button>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text">
+								</div>
+							</div>
+							<input type="hidden" name="utc_timestamp" id="utc_timestamp">
+							<input type="hidden" name="time_zone_offset" id="time_zone_offset">
+							<div class="row">
+								<div class="col s12 center-align">
+									<button type="submit" name="btn_save" class="btn btn-success">Submit
+										<i class="material-icons right">send</i>
+									</button>
 								</div>
 							</div>
 						</form>
 					</div>
-					<p class="mt-3">
+					<p>
 						Already have an account ?<a href="./login.php"> Login</a>
 					</p>
 				</div>

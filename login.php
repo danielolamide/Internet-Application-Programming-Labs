@@ -18,52 +18,52 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Lab Login</title>
-
-    <!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		
+    <title>Login</title>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </head>
   <body>
-		<style>
-			#main {
-				width: 60%;
-			}
-			@media screen and (max-width: 567px) {
-				#main {
-					width: 90%;
-				}
-			}
-		</style>
-	<div class="container-fluid" style="height: 100vh; padding:0;">
-			<div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-				<div class="container" id="main">
-					<?php if(isset($_SESSION['msg']) && !empty($_SESSION['msg'])): ?>
-						<div class="alert alert-<?= $_SESSION['msg']['type'];?>">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<?= $_SESSION['msg']['content'];?>
-							<?php unset($_SESSION['msg']);?>
-						</div>
-					<?php endif; ?>
-					<h2>Login</h2>
-					<div class="row">
-						<form method="post" style="width: 100%;" action="<?= $_SERVER['PHP_SELF']?>">
-							<div class="form-group">
-								<input type="text" class="form-control" name="username" placeholder="Username" required>
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" name="password" placeholder="Password" required>
-							</div>
-							<button type="submit" name="btn_login" class="btn btn-success">Login</button>
-						</form>
-					</div>
-					<p style="margin-top: 10px">
-						Don't have an account ?<a href="./lab1.php"> Register</a>
-					</p>
+	<div class="container">
+			<?php if(isset($_SESSION['msg']) && !empty($_SESSION['msg'])): ?>
+				<div class="alert alert-<?= $_SESSION['msg']['type'];?>">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<?= $_SESSION['msg']['content'];?>
+					<?php unset($_SESSION['msg']);?>
 				</div>
+			<?php endif; ?>
+			<h2>Login</h2>
+			<div class="row">
+				<form method="post" style="width: 100%;" action="<?= $_SERVER['PHP_SELF']?>">
+					<ediv class="row">
+						<div class="input-field col s12">
+							<label for="username">Username</label>
+							<input type="text" class="validate" name="username" placeholder="Username" required>
+						</div>
+					</ediv>
+					<div class="row">
+						<div class="input-field col s12">
+							<label for="password">Password</label>
+							<input type="password" class="validate" name="password" placeholder="Password" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12 center-align">
+							<button type="submit" name="btn_login" class="btn btn-success">Submit
+								<i class="material-icons right">send</i>
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
+			<p style="margin-top: 10px">
+				Don't have an account ?<a href="./register.php"> Register</a>
+			</p>
 		</div>
 
     <!-- Optional JavaScript -->

@@ -1,5 +1,5 @@
 <?php
-define('FCPATH', '/home/steekam/public_html/IAP/labs'); 
+define('FCPATH', '/Applications/XAMPP/htdocs/IAP-labs'); 
 
 require_once FCPATH."/DBConnector.php"; 
 

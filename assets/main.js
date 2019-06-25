@@ -54,7 +54,7 @@ function fetchActiveKey() {
   const userId = apiKeyHolder.data('user-id');
 
   $.ajax({
-    url: `${baseURL}/api/v1/main/index`,
+    url: 'http://localhost/IAP-labs/api/v1/main/index.php',
     type: 'POST',
     data: {
       call: {
@@ -92,7 +92,7 @@ $(document).ready(() => {
     let apiKey = '';
 
     $.ajax({
-      url: `${baseURL}/api/v1/main/index`,
+      url: 'http://localhost/IAP-labs/api/v1/main/index.php',
       type: 'POST',
       data: {
         call: {
@@ -105,7 +105,7 @@ $(document).ready(() => {
       if (generateRes.status) {
         apiKey = generateRes.body.api_key;
         $.ajax({
-          url: `${baseURL}/api/v1/main/index`,
+          url: 'http://localhost/IAP-labs/api/v1/main/index.php',
           type: 'POST',
           data: {
             call: {
